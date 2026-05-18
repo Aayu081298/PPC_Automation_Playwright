@@ -1,0 +1,80 @@
+# 1. Create Project Folder
+mkdir Report-Automation
+
+# 2. Go Inside Folder
+cd Report-Automation
+
+# 3. Allow PowerShell For Current Session
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+# 4. Initialize Node Project
+npm init -y
+
+# 5. Install Playwright Project
+npm init playwright@latest
+
+# 6. Install Browsers
+npx playwright install
+
+# 7. Open VS Code
+code .
+
+# 8. Run Tests
+npx playwright test
+
+# 9. Run In Chrome UI Mode
+npx playwright test --headed
+
+# 10. Run In Debug Mode
+npx playwright test --debug
+
+# 11. Open HTML Report
+npx playwright show-report
+
+# 12. Open Playwright Codegen
+npx playwright codegen
+
+# 13. Open Codegen With URL
+npx playwright codegen https://admin.rezmate.com
+
+# 14. Install Extra Useful Packages
+npm install dotenv
+npm install exceljs
+
+# 15. Run Specific Test File
+npx playwright test e2e/tests/reservationValidation.spec.ts
+
+# 16. Run Only Chromium
+npx playwright test --project=chromium
+
+# 17. Update Playwright
+npm install -D @playwright/test@latest
+
+# 18. Reinstall Browsers
+npx playwright install --force
+
+---------------------------------------------------------------
+
+Inside that directory, you can run several commands:
+
+  npx playwright test
+    Runs the end-to-end tests.
+
+  npx playwright test --ui
+    Starts the interactive UI mode.
+
+  npx playwright test --project=chromium
+    Runs the tests only on Desktop Chrome.
+
+  npx playwright test example
+    Runs the tests in a specific file.
+
+  npx playwright test --debug
+    Runs the tests in debug mode.
+
+  npx playwright codegen
+    Auto generate tests with Codegen.
+
+We suggest that you begin by typing:
+
+    npx playwright test
