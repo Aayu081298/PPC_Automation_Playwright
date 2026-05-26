@@ -7,12 +7,18 @@ export class HotelListPage {
     return this.page.getByRole('button', { name: 'Select Hotel' });
   }
 
-  async verifyHotelListPage(expectedDestination: string) {
-    const heading = this.page
-      .getByRole('heading')
-      .filter({ hasText: expectedDestination });
-
-    await expect(heading.first()).toBeVisible();
+  async verifyHotelListPage(expectedDestination: string, p0?: { timeout: number; }) {
+    // Extract city and state from destination (e.g., "Miami, Florida" from "Miami, Florida, United States of America")
+    const parts = expectedDestination.split(',').map(p => p.trim());
+    const cityAndState = parts.slice(0, 2).join(', '); // Get city and state only
+    
+    // Match heading that contains at least city and state
+    const heading = this.page.getByRole('heading').filter({ hasText: new RegExp(cityAndState, 'i') });
+    console.log('Verifying hotel list page for destination => ', expectedDestination);
+    console.log('Looking for heading containing => ', cityAndState);
+    // console.log('Heading count => ', await heading.count());
+    await expect(heading).toBeVisible({ timeout: p0?.timeout || 10000 });
+    console.log('Searched destination is visible on hotel list page => ', await heading.innerText());
   }
 
   private async getHotelNameFromButton(button: Locator): Promise<string> {
@@ -59,4 +65,6 @@ export class HotelListPage {
     const randomIndex = Math.floor(Math.random() * count);
     await hotelButtons.nth(randomIndex).click();
   }
+
+  
 }

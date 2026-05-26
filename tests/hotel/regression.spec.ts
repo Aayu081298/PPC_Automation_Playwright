@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { SiteLaunch } from '../../pages/common/SiteLaunch';
 import { SearchPage } from '../../pages/hotel/HotelSearchPage';
 import { HotelListPage } from '../../pages/hotel/HotelListPage';
+import { HotelDetailsPage } from '../../pages/hotel/HotelDetailsPage';
+import { hotelTravelerInfoPage } from '../../pages/hotel/HotelTravelerInfoPage';
 
 test('Hotel Regression', async ({ page }) => {
 
@@ -15,25 +17,30 @@ test('Hotel Regression', async ({ page }) => {
 
     console.log('Current URL => ', page.url());
 
-    await page.waitForTimeout(5000);
-
-
     const searchPage = new SearchPage(page);
-    const selectedDestination = await searchPage.hotelSearch();
+    const selectedDestination = await searchPage.hotelSearchWithRetry(3);
     console.log('Selected Destination => ', selectedDestination);
-    // await searchPage.select_date();
-    await searchPage.selectAdult();
-    await searchPage.selectChild();
-    await searchPage.submit();
-
-    // await page.pause();
 
     const hotelListPage = new HotelListPage(page);
-    await hotelListPage.verifyHotelListPage(selectedDestination);
+    await hotelListPage.verifyHotelListPage(selectedDestination, { timeout: 10000 });
+   
     // const selectedHotel = await hotelListPage.selectRandomHotelAndGetName();
     // console.log('Selected Hotel => ', selectedHotel);
     // await hotelListPage.selectRandomHotelByName(selectedHotel);
     await hotelListPage.selectRandomHotel();
-    await page.pause();
+
+    const hotelDetailsPage = new HotelDetailsPage(page);
+    // const hotelNameOnDetailsPage = await hotelDetailsPage.getHotelName();
+    await hotelDetailsPage.chooseRoom();
+    await hotelDetailsPage.bookRoom();
+    // console.log('Hotel name on details page => ', hotelNameOnDetailsPage);
+
+    const hotelTravelerInfo = new hotelTravelerInfoPage(page);
+    await hotelTravelerInfo.verifyHotelInfoPage();
+    await hotelTravelerInfo.fillTravelerInfo();
+    await hotelTravelerInfo.verifyRedirectedToCartPage();
+     await page.pause();
+
+    
 
 });
