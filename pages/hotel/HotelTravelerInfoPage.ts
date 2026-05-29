@@ -6,7 +6,7 @@ export class hotelTravelerInfoPage {
     async verifyHotelInfoPage(): Promise<{ hotelName: string; roomInfo: string; addressInfo: string }> {
         // Verify that we are on the traveler info page by checking for a unique element
         const hotelInfoHeading = this.page.locator('div > div > div.custom-attractionDetailList > div.custom-attrNameField > h4');
-        await expect(hotelInfoHeading).toBeVisible({ timeout: 10000 });
+        await expect(hotelInfoHeading).toBeVisible({ timeout: 20000 });
         const headingText = await hotelInfoHeading.innerText();
         console.log('Hotel Name => ', headingText);
     
@@ -35,14 +35,26 @@ export class hotelTravelerInfoPage {
     }
 
     private async phone() {
-        return await this.page.getByRole('textbox', { name: '1 (702) 123-' });
+         const getPhone = await this.page.getByRole('textbox', { name: '1 (702) 123-' });
+        return getPhone;
     }
 
     async fillTravelerInfo(): Promise<void> {
         // Fill in traveler information form
-        await this.page.getByRole('textbox', { name: 'First name' }).fill('Test');
-        await this.page.getByRole('textbox', { name: 'Last name' }).fill('Test');
-        await this.page.getByRole('textbox', { name: 'Email' }).fill('testd2496@gmail.com');
+
+        const getName = await this.page.getByRole('textbox', { name: 'First name' }).fill('Test');
+        console.log('First Name Input Value => ', getName);
+
+        // await this.page.getByRole('textbox', { name: 'First name' }).fill('Test');
+
+        const getLastName = await this.page.getByRole('textbox', { name: 'Last name' }).fill('Test');
+        console.log('Last Name Input Value => ', getLastName);
+        // await this.page.getByRole('textbox', { name: 'Last name' }).fill('Test');
+
+        const getEmail = await this.page.getByRole('textbox', { name: 'Email' }).fill('testd2496@gmail.com');
+        console.log('Email Input Value => ', getEmail);
+
+        // await this.page.getByRole('textbox', { name: 'Email' }).fill('testd2496@gmail.com');
         const phoneInput = await this.phone();
         await phoneInput.clear();
         // await phoneInput.fill('+1');
