@@ -1,14 +1,15 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { hotelDetailsPageLocators } from '../../locators/hotel/HotelDetailsPageLocators';
 
 export class HotelDetailsPage {
     constructor(private page: Page) { }
 
-    private bookNowButtons() {
-        return this.page.getByRole('button', { name: 'Book Now' });
+    private bookNowButtons(): Locator {
+        return hotelDetailsPageLocators.bookNowButtons(this.page);
     }
 
     async chooseRoom(): Promise<void> {
-        const chooseRoomButtons = this.page.getByRole('button', { name: 'Choose Room' });
+        const chooseRoomButtons = hotelDetailsPageLocators.chooseRoomButtons(this.page);
 
         await chooseRoomButtons.first().click();
 
@@ -38,7 +39,7 @@ export class HotelDetailsPage {
 
 
     async getHotelName(): Promise<string> {
-        const hotelNameLocator = this.page.getByRole('heading', { name: /.+/ }).first();
+        const hotelNameLocator = hotelDetailsPageLocators.hotelNameHeading(this.page);
         await expect(hotelNameLocator).toBeVisible({ timeout: 10000 });
         const hotelName = (await hotelNameLocator.innerText()).trim();
         console.log('Hotel name on details page => ', hotelName);

@@ -4,6 +4,7 @@ import { SearchPage } from '../../pages/hotel/HotelSearchPage';
 import { HotelListPage } from '../../pages/hotel/HotelListPage';
 import { HotelDetailsPage } from '../../pages/hotel/HotelDetailsPage';
 import { hotelTravelerInfoPage } from '../../pages/hotel/HotelTravelerInfoPage';
+import { cartPage } from '../../pages/cartPage';
 
 test('Hotel Regression', async ({ page }) => {
 
@@ -39,6 +40,9 @@ test('Hotel Regression', async ({ page }) => {
     await hotelTravelerInfo.verifyHotelInfoPage();
     await hotelTravelerInfo.fillTravelerInfo();
     await hotelTravelerInfo.verifyRedirectedToCartPage();
+    
+    const cart = new cartPage(page);
+    await cart.verifyHotelOnCartPage();
      await page.pause();
 
     
