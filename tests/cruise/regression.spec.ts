@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { SiteLaunch } from '../../pages/common/SiteLaunch';
+import { CruiseSearchPage } from '../../pages/cruise/cruiseSearchPage';
+import { CruiseListPage } from '../../pages/cruise/cruiseListPage';
 
 test('Cruise Regression', async ({ page }) => {
 
@@ -11,6 +13,18 @@ test('Cruise Regression', async ({ page }) => {
         return;
     }
 
-    await page.pause();
+await page.waitForTimeout(5000);
 
-    });
+    const cruiseSearchPage = new CruiseSearchPage(page);
+    await cruiseSearchPage.switchToCruisePage();
+       
+    await cruiseSearchPage.searchCruises();
+   
+
+     const cruiseListPage = new CruiseListPage(page);
+     await cruiseListPage.selectRandomCruise();
+
+       await page.pause();
+
+
+});

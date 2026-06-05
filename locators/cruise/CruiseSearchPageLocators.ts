@@ -5,12 +5,17 @@ export const cruiseSearchPageLocators = {
     selectGoingTo: (page: Page): Locator =>
         page.getByRole('combobox', { name: 'Going to Departing Port' }),
 
+    getListOption: (page: Page,): Locator =>
+        page.locator("//li[@id='combo-box-demo-option-0']"),
 
     selectMonth: (page: Page): Locator =>
         page.locator('#demo-simple-select-5'),
 
+    monthOptions: (page: Page): Locator =>
+        page.locator('ul.MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9'),
+
     getMonthOption: (page: Page, month: string): Locator =>
-        page.getByRole('option', { name: month }),
+         page.getByText(month),
 
     selectCruiseLine: (page: Page): Locator =>
         page.getByText('Cruise Line (Any)'),

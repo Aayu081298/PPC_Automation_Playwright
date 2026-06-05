@@ -1,24 +1,24 @@
-import { Locator, Page, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export class SwitchToProductPage {
 
     constructor(private page: Page) { } 
 
     async switchToProductCruisePage() {
-
         const cruiseLink = this.page.getByRole('tab', { name: 'Cruises' });
-        await expect(cruiseLink).toBeVisible();
+
+        await expect(cruiseLink).toBeVisible({ timeout: 10000 });
         await cruiseLink.click();
-        await expect(this.page).toHaveURL('https://stage_tmp.purchasingpower.travel/cruises');
+        await expect(this.page).toHaveURL(/.*\/?page=cruise$/, { timeout: 10000 });
         console.log('Successfully Redirected to the Cruises page', 'switchToProductCruisePage: success');
     }
 
     async switchToProductCarPage() {
-
         const carLink = this.page.getByRole('tab', { name: 'Cars' });
-        await expect(carLink).toBeVisible();
+
+        await expect(carLink).toBeVisible({ timeout: 10000 });
         await carLink.click();
-        await expect(this.page).toHaveURL('https://stage_tmp.purchasingpower.travel/cars');
+        await expect(this.page).toHaveURL(/.*\/?page=car$/, { timeout: 10000 });
         console.log('Successfully Redirected to the Cars page', 'switchToProductCarPage: success');
     }
 

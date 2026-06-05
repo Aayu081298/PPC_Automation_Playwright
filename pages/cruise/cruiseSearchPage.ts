@@ -13,14 +13,19 @@ export class CruiseSearchPage {
      async searchCruises() {
         const goingToDropdown = cruiseSearchPageLocators.selectGoingTo(this.page);
         await expect(goingToDropdown).toBeVisible();
-        await goingToDropdown.click();
-        await goingToDropdown.getByRole('option', { name: 'Caribbean' }).click();
+        // await goingToDropdown.click();
+        await goingToDropdown.fill('Caribbean');
+        await cruiseSearchPageLocators.getListOption(this.page).click();
 
-        const selectedMonth = this.getRandomMonthAfterMonths(3);
         const selectMonth = cruiseSearchPageLocators.selectMonth(this.page);
         await expect(selectMonth).toBeVisible();
         await selectMonth.click();
-        await cruiseSearchPageLocators.getMonthOption(this.page, selectedMonth).click();
+
+        const monthOptions = cruiseSearchPageLocators.monthOptions(this.page);
+        await expect(monthOptions.first()).toBeVisible();
+        const selectedMonthIndex = await this.getRandomMonthIndexAfterMonths(3, monthOptions);
+        const selectedMonth = (await monthOptions.nth(selectedMonthIndex).innerText()).trim();
+        await monthOptions.nth(selectedMonthIndex).click();
 
         const selectedCruiseLine = this.getRandomCruiseLine();
         const selectCruiseLine = cruiseSearchPageLocators.selectCruiseLine(this.page);
@@ -34,6 +39,11 @@ export class CruiseSearchPage {
         await selectTravelers.click();
         await cruiseSearchPageLocators.getTravelersOption(this.page, `${selectedTravelers} Travelers`).click();
 
+        // execute the search
+        await cruiseSearchPageLocators.executeSearchButton(this.page).click();
+
+        console.log('Executed cruise search with the following criteria:');
+
         console.log('Selected cruise search values:', {
             cruiseLine: selectedCruiseLine,
             departureMonth: selectedMonth,
@@ -46,21 +56,11 @@ export class CruiseSearchPage {
         return cruiseLines[Math.floor(Math.random() * cruiseLines.length)];
     }
 
-    private getRandomMonthAfterMonths(monthsAhead: number): string {
-        const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December',
-        ];
-        const today = new Date();
-        const startIndex = (today.getMonth() + monthsAhead) % 12;
-        const availableMonths = [] as string[];
-
-        for (let i = 0; i < 12; i++) {
-            const index = (startIndex + i) % 12;
-            availableMonths.push(monthNames[index]);
-        }
-
-        return availableMonths[Math.floor(Math.random() * availableMonths.length)];
+    private async getRandomMonthIndexAfterMonths(monthsAhead: number, monthOptions: Locator): Promise<number> {
+        const count = await monthOptions.count();
+        const startIndex = Math.min(monthsAhead, Math.max(0, count - 1));
+        const availableCount = Math.max(1, count - startIndex);
+        return startIndex + Math.floor(Math.random() * availableCount);
     }
 
     private getRandomTravelerCount(): number {
