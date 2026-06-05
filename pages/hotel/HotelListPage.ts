@@ -1,10 +1,11 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { hotelListPageLocators } from '../../locators/hotel/HotelListPageLocators';
 
 export class HotelListPage {
   constructor(private page: Page) {}
 
-  private hotelButtons() {
-    return this.page.getByRole('button', { name: 'Select Hotel' });
+  private hotelButtons(): Locator {
+    return hotelListPageLocators.selectHotelButtons(this.page);
   }
 
   async verifyHotelListPage(expectedDestination: string, p0?: { timeout: number; }) {
@@ -13,7 +14,7 @@ export class HotelListPage {
     const cityAndState = parts.slice(0, 2).join(', '); // Get city and state only
     
     // Match heading that contains at least city and state
-    const heading = this.page.getByRole('heading').filter({ hasText: new RegExp(cityAndState, 'i') });
+    const heading = hotelListPageLocators.hotelListHeading(this.page, cityAndState);
     console.log('Verifying hotel list page for destination => ', expectedDestination);
     console.log('Looking for heading containing => ', cityAndState);
     // console.log('Heading count => ', await heading.count());
@@ -22,8 +23,8 @@ export class HotelListPage {
   }
 
   private async getHotelNameFromButton(button: Locator): Promise<string> {
-    const hotelContainer = button.locator('xpath=ancestor::*[.//h1 or .//h2 or .//h3 or .//h4][1]');
-    const title = hotelContainer.locator('xpath=.//h1|.//h2|.//h3|.//h4').first();
+    const hotelContainer = hotelListPageLocators.hotelContainerFromButton(button);
+    const title = hotelListPageLocators.hotelTitleHeading(hotelContainer);
     return (await title.innerText()).trim();
   }
 

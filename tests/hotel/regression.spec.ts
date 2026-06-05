@@ -40,10 +40,9 @@ test('Hotel Regression', async ({ page }) => {
     await hotelTravelerInfo.verifyHotelInfoPage();
     await hotelTravelerInfo.fillTravelerInfo();
     await hotelTravelerInfo.verifyRedirectedToCartPage();
-
-    const cartPageInstance = new cartPage(page);
-    await cartPageInstance.verifyHotelOnCartPage();
     
+    const cart = new cartPage(page);
+    await cart.verifyHotelOnCartPage();
      await page.pause();
 
     
