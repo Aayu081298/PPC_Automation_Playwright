@@ -2,8 +2,11 @@
 import { Locator, Page } from '@playwright/test';
 
 export const cruiseListPageLocators = {
-    
+
+    // First "View Detail" button on the page
     viewCruiseDetails: (page: Page): Locator =>
-        page.getByRole('button', { name: 'View Detail' }).first(),
+        page.locator('button', { hasText: /View Detail/i }).first(),
+
+
 }
 

@@ -5,7 +5,7 @@ export class SwitchToProductPage {
     constructor(private page: Page) { } 
 
     async switchToProductCruisePage() {
-        const cruiseLink = this.page.getByRole('tab', { name: 'Cruises' });
+        const cruiseLink = this.page.locator("//span[@class='tab-label'][normalize-space()='Cruises']")
 
         await expect(cruiseLink).toBeVisible({ timeout: 10000 });
         await cruiseLink.click();

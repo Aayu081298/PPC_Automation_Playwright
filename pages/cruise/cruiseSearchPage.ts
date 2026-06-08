@@ -64,6 +64,6 @@ export class CruiseSearchPage {
     }
 
     private getRandomTravelerCount(): number {
-        return Math.floor(Math.random() * 5) + 1;
+        return Math.floor(Math.random() * 4) + 1;
     }
 }
