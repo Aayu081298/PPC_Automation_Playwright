@@ -37,7 +37,12 @@ export class CruiseSearchPage {
         const selectTravelers = cruiseSearchPageLocators.selectTravelers(this.page);
         await expect(selectTravelers).toBeVisible();
         await selectTravelers.click();
-        await cruiseSearchPageLocators.getTravelersOption(this.page, `${selectedTravelers} Travelers`).click();
+
+        const travelerLabel = selectedTravelers === 1
+            ? '1 Traveler'
+            : `${selectedTravelers} Travelers`;
+
+        await cruiseSearchPageLocators.getTravelersOption(this.page, travelerLabel).click();
 
         // execute the search
         await cruiseSearchPageLocators.executeSearchButton(this.page).click();

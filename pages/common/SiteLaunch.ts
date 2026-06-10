@@ -9,12 +9,12 @@ export class SiteLaunch {
 
     async run(): Promise<boolean> {
 
-        const url = process.env.PPC_STAGE_SITE;
+        const url = process.env.PPC_PROD_SITE;
 
         console.log('ENV URL => ', url);
 
         if (!url) {
-            throw new Error('PPC_STAGE_SITE is missing');
+            throw new Error('PPC_PROD_SITE is missing');
         }
 
         const response = await this.page.goto(url, { waitUntil: 'domcontentloaded' });

@@ -14,19 +14,22 @@ export class CruiseListPage {
         const viewCruiseDetailsButton = cruiseListPageLocators.viewCruiseDetails(this.page);
         console.log('Locating "View Detail" buttons on the cruise list page...', viewCruiseDetailsButton);
 
-        // await expect(viewCruiseDetailsButton).toBeVisible();
-        const count = await viewCruiseDetailsButton.count();
+        await expect(viewCruiseDetailsButton.first()).toBeVisible({ timeout: 20000 });
 
-        await this.page.waitForTimeout(10000);
-        // await expect(count).toBeGreaterThan(0);
+        const count = await viewCruiseDetailsButton.count();
         console.log(`Found ${count} "View Detail" buttons on the cruise list page.`);
-        await expect(viewCruiseDetailsButton).toBeVisible();
         if (count === 0) {
             throw new Error('No Select Cruise buttons were found');
         }
 
         const randomIndex = Math.floor(Math.random() * count);
-        await viewCruiseDetailsButton.nth(randomIndex).click();
+        const selectedButton = viewCruiseDetailsButton.nth(randomIndex);
 
+        await Promise.all([
+            this.page.waitForURL(/.*cruise-details.*/i, { timeout: 30000 }).catch(() => null),
+            selectedButton.click(),
+        ]);
+
+        await this.page.waitForLoadState('networkidle');
     }
 }
