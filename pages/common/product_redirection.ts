@@ -23,4 +23,13 @@ export class SwitchToProductPage {
     }
 
 
+    async switchToProductThemeParkPage() {
+        const themeParkLink = this.page.getByRole('tab', { name: 'Theme Parks' }).first();
+
+        await expect(themeParkLink).toBeVisible({ timeout: 15000 });
+        await themeParkLink.click();
+        await expect(this.page).toHaveURL(/.*\/?page=theme_park$/, { timeout: 15000 });
+        console.log('Successfully Redirected to the Theme Parks page', 'switchToProductThemeParkPage: success');
+    }
+
 }
