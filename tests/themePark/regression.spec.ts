@@ -11,7 +11,7 @@ test('Theme Park Regression', async ({ page }) => {
 
     const siteIsReady = await site_run.run();
     if (!siteIsReady) {
-        console.log('Test stopped because deployment/server error was detected.');
+        console.log("Test stopped because deployment/server error was detected.");
         return;
     }
 

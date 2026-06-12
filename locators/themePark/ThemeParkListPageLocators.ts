@@ -4,7 +4,8 @@ export const themeParkSearchPageLocators = {
 
 
  selectPark: (page: Page): Locator =>
-    page.getByRole('button', { name: 'Select Theme Park' }),
+    page.locator('button').filter({ hasText: 'Select Theme Park' }).last(),
+
 
 
  re_enterParkName: (page: Page): Locator =>

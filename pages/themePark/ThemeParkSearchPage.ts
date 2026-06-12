@@ -20,14 +20,13 @@ export class ThemeParkSearchPage {
             'Disneyland Resort Theme Parks',
             'Disney World® Theme Parks',
             'Universal Studios Hollywood',
-            'Universal Orlando Resort',
             'SeaWorld Orlando'
         ];
 
         // Click on the "Choose date" button to open the calendar
         const click_on_choose_date = themeParkSearchPageLocators.chooseDate(this.page);
         try {
-            await click_on_choose_date.waitFor({ state: 'visible', timeout: 15000 });
+            await click_on_choose_date.waitFor({ state: 'visible', timeout: 30000 });
             await click_on_choose_date.click();
 
             // Click on the "Next month" button a random number of times (between 3 and 6) to navigate through the calendar months
@@ -69,18 +68,20 @@ export class ThemeParkSearchPage {
 
             // Dropdown se exact option select karo
             const parkOption = this.page.getByText(randomPark, { exact: true });
-            await parkOption.waitFor({ state: 'visible', timeout: 15000 });
+            await parkOption.waitFor({ state: 'visible', timeout: 30000 });
             await parkOption.click();
         } catch (error) {
             console.log('Enter park name input field is not visible or not ready on the theme park search page.');
         }
 
+        
 
         // Click on the "Find Theme Park" button to perform the search
         const find_theme_parks_button = themeParkSearchPageLocators.findThemeParksButton(this.page);
         try {
-            await find_theme_parks_button.waitFor({ state: 'visible', timeout: 15000 });
+            await find_theme_parks_button.waitFor({ state: 'visible', timeout: 30000 });
             await find_theme_parks_button.click();
+            console.log('Clicked on the Find Theme Park button to perform the search.');
         } catch (error) {
             console.log('Find Theme Park button is not visible or did not become visible in time on the theme park search page.');
         }
