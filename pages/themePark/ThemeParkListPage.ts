@@ -7,7 +7,6 @@ export class ThemeParkListPage {
 
     async selectThemePark() {
         const selectThemePark = themeParkSearchPageLocators.selectPark(this.page);
-        // this.page.waitForEvent('load');
         const count = await selectThemePark.count();
         console.log('Select Theme Park locator count:', count);
 
@@ -69,4 +68,3 @@ export class ThemeParkListPage {
 
 
 }
-

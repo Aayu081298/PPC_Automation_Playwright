@@ -27,6 +27,7 @@ test('Theme Park Regression', async ({ page }) => {
     expect(currentURL).toBe(expectedURL);
 
     await themeParkSearchPage.searchThemeParks();
+    await page.waitForLoadState('networkidle');
     await themeParkListPage.selectThemePark();
 
 
